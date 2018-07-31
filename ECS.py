@@ -1,8 +1,6 @@
-from pywinauto.application import Application
 import Station
 import testpath
 import sys
-import time
 
 class ErrorCorrectionStation(Station.SCApplication):
     station_name = u"Error Correction Station"
@@ -19,8 +17,3 @@ class ErrorCorrectionStation(Station.SCApplication):
             self.servers_list[server_name] = [(user, password)]
         else:
             self.servers_list[server_name].append((user, password))
-
-
-test = ErrorCorrectionStation()
-test.start(True)
-test.connect(test.station_name, '127.0.0.1', '1', '1')
