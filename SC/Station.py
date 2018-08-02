@@ -1,7 +1,7 @@
 from pywinauto.application import Application
 import subprocess
 import time
-import Helper
+from Common import Helper
 
 
 class SCApplication(object):
