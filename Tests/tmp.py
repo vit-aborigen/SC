@@ -4,18 +4,23 @@ import time
 import random
 
 #Connect
-app = Application(backend="uia").connect(process=1460)
+app = Application(backend="uia").connect(process=17128)
 app = app.window(title_re=".*Error Correction Station - .*", )
 time.sleep(2)
-if app.window(title="Can't Save document with errors").exists():
-    app.OK.draw_outline()
-else:
-    app.Save.draw_outline()
 
+app.Pane22.OnlyErrorFields.draw_outline()
 
-
-# child_window(title="Can't Save document until all errors are fixed.\r\n"
-#                    "Please click OK button if you completed Keying and want to switch to Errors mode.", auto_id="65535", control_type="Text")
+# document_error_wnd = app.Pane22.child_window(auto_id="792966", control_type="Pane")
+# if not document_error_wnd.OnlyErrorFields.get_toggle_state():
+#     document_error_wnd.OnlyErrorFields.click()
+#
+# mode = 'KeyEntry'
+# error_list = document_error_wnd.child_window(auto_id="_lvRuleErrors", control_type="List").texts()
+# if mode == 'KeyEntry':
+#     for error in range(len(error_list) - 1):
+#         keyboard.SendKeys('{ENTER}')
+#         app.Dialog.ContinueAnyway.click()
+#     app.Dialog.Save.click()
 
 
 

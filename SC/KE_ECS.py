@@ -25,20 +25,27 @@ class KeyEntry(ECS.ErrorCorrectionStation):
 
         print('{} Key Entry mode loaded, project: {} was chosen'.format(Helper.current_time(), projects_list[0]))
 
-    def fill_batch(self):
+    def create_batch(self):
         app = self.app[self.station_name + 'Dialog']
         app.Dialog2.BatchFields.Edit3.set_text(Helper.batch_date())
         app.Dialog2.OK.click()
+        print('{} {} batch date was specified'.format(Helper.current_time(), Helper.batch_date(), ))
 
+    def close_batch(self):
+        app = self.app[self.station_name + 'Dialog']
+        app.NewFormBarcodeDialog.CloseBatch.click()
+        print('{} batch was closed'.format(Helper.current_time()))
+
+    def new_form_barcode(self):
         # new form barcode
+        app = self.app[self.station_name + 'Dialog']
         list_box = app.NewFormBarcodeDialog.GroupBox2.ListBox1
         barcodes_list = list_box.texts()
         # Todo: Improvement: choose form barcode randomly
         # list_box.ListItem0.select()
         keyboard.SendKeys('{DOWN}')
         app.NewFormBarcodeDialog.AddForm.click()
-        print('{} Batch date {} and Form barcode {} were specified'.
-              format(Helper.current_time(), Helper.batch_date(), barcodes_list[0]))
+        print('{} ------ Form barcode {} was specified'.format(Helper.current_time(), barcodes_list[0]))
 
     def process_form(self, test_data):
         # Form loading time is very dependent on PC performance. Based on tests loading takes from 5 to 30 sec
@@ -80,5 +87,7 @@ class KeyEntry(ECS.ErrorCorrectionStation):
             app.OK.click()
             if app.window(title="Can't Save document with errors").exists():
                 app.OK.click()
+                return (0, 1) # ECS required
             else:
                 app.Save.click()
+                return (0, 0) # ECS doesn't required

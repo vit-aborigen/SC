@@ -21,8 +21,8 @@ currentFieldValue = '{R}{a}{n}{d}{o}{m}{SPACE}{v}{a}{l}{u}{e}'
 test_data = (memberTFN, numberOfFieldsToEdit, moveNFieldDown, currentFieldValue)
 
 """ Test configuration """
-numberOfFormsToProcessPerBatch = 10
-numberOfBatchToProcess = 1000
+numberOfFormsToProcessPerBatch = 3
+numberOfBatchToProcess = 3
 
 """ Test section """
 test = KE_ECS.KeyEntry(ECS_path)
@@ -30,7 +30,16 @@ test.start(True)
 test.connect(test.station_name, server_name)
 test.login(test.station_name, user_name, password)
 test.load_extension()
-test.fill_batch()
-print('{} --- Batch #{} created'.format(Helper.current_time(), 1))
-test.process_form(test_data)
-print('{} ------ KE Form #{} saved'.format(Helper.current_time(), 1))
+for batchNumber in range(numberOfBatchToProcess):
+    test.create_batch()
+    print('{} --- Batch #{} created'.format(Helper.current_time(), batchNumber + 1))
+
+    for formNumber in range(numberOfFormsToProcessPerBatch):
+        test.new_form_barcode()
+        isECSRequired = test.process_form(test_data)
+        print('{} ------ KE Form #{} saved'.format(Helper.current_time(), formNumber + 1))
+
+        if isECSRequired[1]:
+            test.fix_errors("KeyEntry")
+            print('{} ------ Form #{} was ECSed'.format(Helper.current_time(), formNumber + 1))
+    test.close_batch()
