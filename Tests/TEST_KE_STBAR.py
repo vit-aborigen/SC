@@ -21,8 +21,8 @@ currentFieldValue = '{R}{a}{n}{d}{o}{m}{SPACE}{v}{a}{l}{u}{e}'
 test_data = (memberTFN, numberOfFieldsToEdit, moveNFieldDown, currentFieldValue)
 
 """ Test configuration """
-numberOfFormsToProcessPerBatch = 3
-numberOfBatchToProcess = 3
+numberOfFormsToProcessPerBatch = 10
+numberOfBatchToProcess = 100
 
 """ Test section """
 test = KE_ECS.KeyEntry(ECS_path)
